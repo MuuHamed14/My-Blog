@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+
+{% if post.created_by == request.user %}
+<div class="jumbotron" style="width:100%">
+    <a class="btn btn-primary btn-lg" style="margin-left:440px;" href="{% url 'blog:edit_post' post.id %}" role="button"> Edit Post </a>
+</div>
+{% else %}
+
+{% endif %}
+
+            <div class="card" style="width:100%;" >
+                  {% if post.img %}
+                  <img src="{{post.img.url}}" class="card-img-top" alt="...">
+                  {% endif %}
+                  <div class="card-body">
+                    <h5 class="card-title"> {{post}} </h5>
+                    <p class="card-text"> {{post.content|safe}} </p>
+
+                  </div>
+            </div>
+{% endblock %}

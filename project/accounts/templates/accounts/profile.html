@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load bootstrap4 %}
+
+{% block body %}
+
+    <div class="job_details_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8" style="margin-left:250px; margin-top:40px;">
+                    <div class="job_sumary">
+                        <div class="summery_header">
+                            <h3> Profile personal page </h3>
+                             {% if my_profile.image %}
+                                     <img src="{{my_profile.image.url}}" style="margin-left:340px; margin-top:-60px;" width="110" height="110" alt="profile image">
+                             {% else %}
+                                    <img src="{% static 'img/user/user.png' %}" style="margin-left:340px; margin-top:-60px;" width="110" height="110" alt="profile image">
+                             {% endif %}
+                        </div>
+                        <div class="job_content">
+                            <ul>
+                                <li> Name : <span>{{my_profile}}</span></li>
+                                <li> E-Mail : <span>{{my_profile.user.email}}</span></li>
+                                <li> City : <span>{{my_profile.city}}</span></li>
+                                <li> Phone-Number : <span> {{my_profile.number_phone}} </span></li>
+                            </ul>
+                            <br>
+                             <p><a href="{% url 'accounts:edit_profile' %}"  class='btn btn-secondary' style="width:100%;"> Edit Profile</a></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+</div>
+{% endblock %}

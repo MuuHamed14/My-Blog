@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% load bootstrap4 %}
+
+{% block head %}
+
+     <form method="GET" class="form-inline my-2 my-lg-0" style="margin-left:755px;">
+        {% bootstrap_form my_filter.form %}
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-left:6px;"> Search </button>
+    </form>
+
+{% endblock %}
+
+{% block user %}
+    {% if user.is_authenticated %}
+        <div class="phone_num d-none d-xl-block">
+            <a  class="btn btn-primary" style="margin-left:-510px; margin-top:2px; width:100px" href="{% url 'accounts:profile' %}"> My Profile </a>
+        </div>
+
+
+        <div class="phone_num d-none d-xl-block">
+            <a  class="btn btn-danger" style="margin-left:-406px; margin-top:2px; width:100px"  href="{% url 'logout' %}"> Log Out</a>
+        </div>
+    {% else %}
+        <div class="phone_num d-none d-xl-block">
+            <a  class="btn btn-primary" style="margin-left:-406px; margin-top:2px; width:100px"  href="{% url 'login' %}">Log in</a>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+
+<div class="jumbotron" style="width:100%">
+    <a class="btn btn-primary btn-lg" style="margin-left:440px;" href="{% url 'blog:create_post'%}" role="button"> Add New Post </a>
+</div>
+        {% for post in all_post %}
+        <div class="col-md-4">
+            <div class="card" >
+                {% if post.img %}
+                  <img src="{{post.img.url}}" class="card-img-top" alt="..." >
+                {% endif %}
+                  <div class="card-body">
+                    <h5 class="card-title">{{post}}</h5>
+                    <p class="card-text">{{post.content|safe|truncatewords:50}}</p>
+                    <a href="{% url 'blog:post' post.id %}" class="btn btn-primary"> Know More </a>
+                  </div>
+            </div>
+        </div>
+       {% endfor %}
+<div class="container">
+    <div aria-label="blog-pagination" style="margin-left:400px; margin-top:50px;">
+    <ul class="pagination">
+        <!-- Previous -->
+        {% if all_post.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{all_post.previous_page_number}}"> Previous </a>
+            </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link"> Previous </a>
+        </li>
+        {% endif %}
+       <!-- End Of Previous -->
+
+        <!-- Start Of Loop -->
+            {% for post_num in all_post.paginator.page_range %}
+                {% if all_post_num == post_num %}
+                    <li class="page-item active">
+                        {{post_num}}
+                            <span class="sr-only">(current)</span>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{post_num}}"> {{post_num}} </a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        <!-- End Of Loop -->
+
+
+        <!--- Next -->
+        {% if all_post.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{all_post.next_page_number}}"> Next </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link"> Next </a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+</div>
+{% endblock %}
+
